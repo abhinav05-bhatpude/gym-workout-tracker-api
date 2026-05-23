@@ -1,13 +1,25 @@
-const express=require("express");
+const express = require("express");
+const dotenv = require("dotenv");
 
-const app=express();
+const workoutRoutes = require("./routes/workoutRoutes");
+const connectDB = require("./config/db");
 
-const PORT=5000;
+dotenv.config();
 
-app.get("/",(req,res)=>{
+connectDB();
+
+const app = express();
+
+app.use(express.json());
+
+const PORT = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
     res.send("Gym Workout Tracker API Running");
-})
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server running on port ${PORT}`)
-})
+app.use("/api/workouts", workoutRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
