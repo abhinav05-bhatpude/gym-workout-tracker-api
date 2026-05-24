@@ -78,8 +78,27 @@ const getWorkoutById = async (req, res) => {
     }
 };
 
+//UPDATE
+const updateWorkout = async(req,res)=>{
+    try{
+        const workout = await Workout.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new:true,
+            }
+        );
+        res.status(200).json(workout);
+     } catch(error){
+        res.status(500).json({
+            message:error.message,
+        });
+     }
+}
+
 module.exports = {
     createWorkout,
     getWorkouts,
     getWorkoutById,
+    updateWorkout,
 };
