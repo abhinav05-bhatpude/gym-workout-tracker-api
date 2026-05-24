@@ -29,7 +29,22 @@ const getWorkouts=async (req,res)=>{
     }
 }
 
+const getWorkoutById = async (req,res) => {
+
+    try{
+        const workout=await Workout.findById(req.params.id);
+
+        res.status(200).json(workout);
+    } catch(error){
+
+        res.status(500).json({
+            message:error.message,
+        });
+    }
+};
+
+
 module.exports = {
     createWorkout,
     getWorkouts,
-};
+}
