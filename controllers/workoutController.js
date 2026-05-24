@@ -1,12 +1,29 @@
 const Workout = require("../models/workoutModel");
 
+// CREATE WORKOUT
 const createWorkout = async (req, res) => {
 
     try {
 
+        const { exercise, sets, reps, muscleGroup } = req.body;
+
+        if (
+            !exercise ||
+            !sets ||
+            !reps ||
+            !muscleGroup
+        ) {
+            return res.status(400).json({
+                message: "All workout fields are required",
+            });
+        }
+
         const workout = await Workout.create(req.body);
 
-        res.status(201).json(workout);
+        res.status(201).json({
+            message: "Workout created successfully",
+            workout,
+        });
 
     } catch (error) {
 
@@ -16,35 +33,53 @@ const createWorkout = async (req, res) => {
     }
 };
 
-const getWorkouts=async (req,res)=>{
+// GET ALL WORKOUTS
+const getWorkouts = async (req, res) => {
 
-    try{
-        const workout = await Workout.find();
+    try {
 
-        res.status(200).json(workouts);
-    } catch(error) {
-        res.status(500).json({
-            message:error.message,
-        })
-    }
-}
+        const workouts = await Workout.find();
 
-const getWorkoutById = async (req,res) => {
+        res.status(200).json({
+            totalWorkouts: workouts.length,
+            workouts,
+        });
 
-    try{
-        const workout=await Workout.findById(req.params.id);
-
-        res.status(200).json(workout);
-    } catch(error){
+    } catch (error) {
 
         res.status(500).json({
-            message:error.message,
+            message: error.message,
         });
     }
 };
 
+// GET WORKOUT BY ID
+const getWorkoutById = async (req, res) => {
+
+    try {
+
+        const workout = await Workout.findById(req.params.id);
+
+        if (!workout) {
+            return res.status(404).json({
+                message: "Workout not found",
+            });
+        }
+
+        res.status(200).json({
+            workout,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+};
 
 module.exports = {
     createWorkout,
     getWorkouts,
-}
+    getWorkoutById,
+};
