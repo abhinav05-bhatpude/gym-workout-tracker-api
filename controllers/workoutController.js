@@ -2,121 +2,104 @@ const Workout = require("../models/workoutModel");
 
 // CREATE WORKOUT
 const createWorkout = async (req, res) => {
+  try {
+    const { exercise, sets, reps, muscleGroup } = req.body;
 
-    try {
-
-        const { exercise, sets, reps, muscleGroup } = req.body;
-
-        if (
-            !exercise ||
-            !sets ||
-            !reps ||
-            !muscleGroup
-        ) {
-            return res.status(400).json({
-                message: "All workout fields are required",
-            });
-        }
-
-        const workout = await Workout.create(req.body);
-
-        res.status(201).json({
-            message: "Workout created successfully",
-            workout,
-        });
-
-    } catch (error) {
-
-        res.status(500).json({
-            message: error.message,
-        });
+    if (!exercise || !sets || !reps || !muscleGroup) {
+      return res.status(400).json({
+        message: "All workout fields are required",
+      });
     }
+
+    const workout = await Workout.create(req.body);
+
+    res.status(201).json({
+      message: "Workout created successfully",
+      workout,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 // GET ALL WORKOUTS
 const getWorkouts = async (req, res) => {
+  try {
+    const workouts = await Workout.find();
 
-    try {
-
-        const workouts = await Workout.find();
-
-        res.status(200).json({
-            totalWorkouts: workouts.length,
-            workouts,
-        });
-
-    } catch (error) {
-
-        res.status(500).json({
-            message: error.message,
-        });
-    }
+    res.status(200).json({
+      totalWorkouts: workouts.length,
+      workouts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 // GET WORKOUT BY ID
 const getWorkoutById = async (req, res) => {
+  try {
+    const workout = await Workout.findById(req.params.id);
 
-    try {
-
-        const workout = await Workout.findById(req.params.id);
-
-        if (!workout) {
-            return res.status(404).json({
-                message: "Workout not found",
-            });
-        }
-
-        res.status(200).json({
-            workout,
-        });
-
-    } catch (error) {
-
-        res.status(500).json({
-            message: error.message,
-        });
+    if (!workout) {
+      return res.status(404).json({
+        message: "Workout not found",
+      });
     }
+
+    res.status(200).json({
+      workout,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 //UPDATE
-const updateWorkout = async(req,res)=>{
-    try{
-        const workout = await Workout.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new:true,
-            }
-        );
-        res.status(200).json(workout);
-     } catch(error){
-        res.status(500).json({
-            message:error.message,
-        });
-     }
-}
+const updateWorkout = async (req, res) => {
+  try {
+    const workout = await Workout.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json(workout);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 //DELETE
 
-const deleteWorkout = async(req,res)=>{
-    try{
+const deleteWorkout = async (req, res) => {
+  try {
+    const workout = await Workout.findByIdAndDelete(req.params.id);
 
-        const workout= await Workout.findByIdAndDelete(req.params.id);
-
-        res.status(200).json({
-            message:"Workout deleted successfully",
-        });
-    } catch(error){
-        res.status(500).json({
-            message:error.message,
-        });
+    res.status(200).json({
+      message: "Workout deleted successfully",
+    });
+    if (!workout) {
+      return res.status(404).json({
+        message: "Workout not found",
+      });
     }
-}
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
-    createWorkout,
-    getWorkouts,
-    getWorkoutById,
-    updateWorkout,
-    deleteWorkout,
+  createWorkout,
+  getWorkouts,
+  getWorkoutById,
+  updateWorkout,
+  deleteWorkout,
 };
