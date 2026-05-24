@@ -96,9 +96,27 @@ const updateWorkout = async(req,res)=>{
      }
 }
 
+//DELETE
+
+const deleteWorkout = async(req,res)=>{
+    try{
+
+        const workout= await Workout.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            message:"Workout deleted successfully",
+        });
+    } catch(error){
+        res.status(500).json({
+            message:error.message,
+        });
+    }
+}
+
 module.exports = {
     createWorkout,
     getWorkouts,
     getWorkoutById,
     updateWorkout,
+    deleteWorkout,
 };
