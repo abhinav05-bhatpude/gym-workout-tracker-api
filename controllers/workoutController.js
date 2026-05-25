@@ -31,6 +31,7 @@ const getWorkouts = async (req, res) => {
 
     let filter={};
     let sortOption = { createdAt : -1 };
+    const limit = Number(req.query.limit) || 0;
 
     if(muscleGroup){
       filter.muscleGroup=muscleGroup;
@@ -46,7 +47,7 @@ const getWorkouts = async (req, res) => {
       sortOption = { createdAt: 1 };
     }
 
-    const workouts = await Workout.find(filter).sort(sortOption);
+    const workouts = await Workout.find(filter).sort(sortOption).limit(limit);
 
     res.status(200).json({
       totalWorkouts: workouts.length,
