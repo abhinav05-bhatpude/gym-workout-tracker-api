@@ -27,7 +27,15 @@ const createWorkout = async (req, res) => {
 // GET ALL WORKOUTS
 const getWorkouts = async (req, res) => {
   try {
-    const workouts = await Workout.find();
+    const {muscleGroup} = req.query;
+
+    let filter={};
+
+    if(muscleGroup){
+      filter.muscleGroup=muscleGroup;
+    }
+
+    const workouts = await Workout.find(filter);
 
     res.status(200).json({
       totalWorkouts: workouts.length,
