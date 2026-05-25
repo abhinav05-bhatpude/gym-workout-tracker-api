@@ -26,34 +26,49 @@ const createWorkout = async (req, res) => {
 
 // GET ALL WORKOUTS
 const getWorkouts = async (req, res) => {
-  try {
-    const { muscleGroup,exercise,sort } = req.query;
 
-    let filter={};
-    let sortOption = { createdAt : -1 };
+  try {
+
+    const { muscleGroup, exercise, sort } = req.query;
+
+    let filter = {};
+
+    let sortOption = { createdAt: -1 };
+
     const limit = Number(req.query.limit) || 0;
 
-    if(muscleGroup){
-      filter.muscleGroup=muscleGroup;
+    if (muscleGroup) {
+      filter.muscleGroup = muscleGroup;
     }
-    if(exercise){
-      filter.exercise={
-        $regex:exercise,
-        $options:"i",
+
+    if (exercise) {
+      filter.exercise = {
+        $regex: exercise,
+        $options: "i",
       };
     }
 
-    if(sort === "oldest"){
+    if (sort === "oldest") {
       sortOption = { createdAt: 1 };
     }
 
-    const workouts = await Workout.find(filter).sort(sortOption).limit(limit);
+    const workouts = await Workout.find(filter)
+      .sort(sortOption)
+      .limit(limit);
+
+    if (workouts.length === 0) {
+      return res.status(404).json({
+        message: "No workouts found",
+      });
+    }
 
     res.status(200).json({
       totalWorkouts: workouts.length,
       workouts,
     });
+
   } catch (error) {
+
     res.status(500).json({
       message: error.message,
     });
