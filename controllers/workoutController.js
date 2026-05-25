@@ -41,7 +41,7 @@ const getWorkouts = async (req, res) => {
       };
     }
 
-    const workouts = await Workout.find(filter);
+    const workouts = await Workout.find(filter).sort({ createdAt: -1 });
 
     res.status(200).json({
       totalWorkouts: workouts.length,
