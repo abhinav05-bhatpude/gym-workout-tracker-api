@@ -27,12 +27,18 @@ const createWorkout = async (req, res) => {
 // GET ALL WORKOUTS
 const getWorkouts = async (req, res) => {
   try {
-    const {muscleGroup} = req.query;
+    const { muscleGroup,exercise } = req.query;
 
     let filter={};
 
     if(muscleGroup){
       filter.muscleGroup=muscleGroup;
+    }
+    if(exercise){
+      filter.exercise={
+        $regex:exercise,
+        $options:"i",
+      };
     }
 
     const workouts = await Workout.find(filter);
