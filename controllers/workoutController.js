@@ -27,9 +27,10 @@ const createWorkout = async (req, res) => {
 // GET ALL WORKOUTS
 const getWorkouts = async (req, res) => {
   try {
-    const { muscleGroup,exercise } = req.query;
+    const { muscleGroup,exercise,sort } = req.query;
 
     let filter={};
+    let sortOption = { createdAt : -1 };
 
     if(muscleGroup){
       filter.muscleGroup=muscleGroup;
@@ -41,7 +42,11 @@ const getWorkouts = async (req, res) => {
       };
     }
 
-    const workouts = await Workout.find(filter).sort({ createdAt: -1 });
+    if(sort === "oldest"){
+      sortOption = { createdAt: 1 };
+    }
+
+    const workouts = await Workout.find(filter).sort(sortOption);
 
     res.status(200).json({
       totalWorkouts: workouts.length,
