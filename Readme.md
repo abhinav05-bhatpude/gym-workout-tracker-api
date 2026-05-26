@@ -12,3 +12,11 @@ RESTful backend API for tracking gym workouts built with Node.js, Express.js, Mo
 - Filter workouts
 - Search workouts
 - Sort workouts
+
+## Tech Stack
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- Postman
