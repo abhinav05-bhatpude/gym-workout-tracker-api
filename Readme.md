@@ -35,3 +35,17 @@ Day 3:
 
 Day 4:
 - Filtering, searching, sorting
+
+## Live API
+
+Base URL:
+
+https://gym-workout-tracker-api-2.onrender.com
+
+### Example Endpoints
+
+- GET `/api/workouts`
+- POST `/api/workouts`
+- GET `/api/workouts/:id`
+- PUT `/api/workouts/:id`
+- DELETE `/api/workouts/:id`
