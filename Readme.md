@@ -49,3 +49,6 @@ https://gym-workout-tracker-api-2.onrender.com
 - GET `/api/workouts/:id`
 - PUT `/api/workouts/:id`
 - DELETE `/api/workouts/:id`
+
+> Note:
+> The API is hosted on Render free tier, so the first request may take a few seconds.
