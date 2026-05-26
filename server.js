@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 const workoutRoutes = require("./routes/workoutRoutes");
 const connectDB = require("./config/db");
+const errorMiddleware = require("./middleware/errorMiddleware");
 
 dotenv.config();
 
@@ -37,6 +38,8 @@ app.use((req, res) => {
         message: "Route not found",
     });
 });
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
