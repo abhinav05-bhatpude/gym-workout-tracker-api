@@ -20,3 +20,18 @@ RESTful backend API for tracking gym workouts built with Node.js, Express.js, Mo
 - MongoDB
 - Mongoose
 - Postman
+
+## Project Status
+
+Day 1:
+- MongoDB setup
+- Express server setup
+
+Day 2:
+- Workout CRUD APIs
+
+Day 3:
+- Update and delete APIs
+
+Day 4:
+- Filtering, searching, sorting
